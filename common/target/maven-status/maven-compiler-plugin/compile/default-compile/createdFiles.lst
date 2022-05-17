@@ -1,0 +1,8 @@
+handler\JsonEncoder.class
+message\TextMessage.class
+message\DateMessage.class
+message\FileContentMessage.class
+message\FileRequestMessage.class
+message\Message.class
+message\AuthMessage.class
+handler\JsonDecoder.class
