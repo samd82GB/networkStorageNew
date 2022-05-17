@@ -2,18 +2,79 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <parent>
-        <artifactId>networkStorageNew</artifactId>
+<modelVersion>4.0.0</modelVersion>
+
+<parent>
+    <groupId>org.example</groupId>
+    <artifactId>networkStorage</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</parent>
+
+<artifactId>client</artifactId>
+<packaging>jar</packaging>
+
+<properties>
+    <javafx.version>11.0.2</javafx.version>
+    <maven.compiler.release>11</maven.compiler.release>
+</properties>
+
+<dependencies>
+    <dependency>
         <groupId>org.example</groupId>
+        <artifactId>common</artifactId>
         <version>1.0-SNAPSHOT</version>
-    </parent>
-    <modelVersion>4.0.0</modelVersion>
+    </dependency>
 
-    <artifactId>client</artifactId>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-controls</artifactId>
+        <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-fxml</artifactId>
+        <version>${javafx.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openjfx</groupId>
+        <artifactId>javafx-graphics</artifactId>
+        <version>11.0.2</version>
+    </dependency>
+</dependencies>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <version>3.8.1</version>
+            <configuration>
+                <release>${maven.compiler.release}</release>
+            </configuration>
+        </plugin>
+        <plugin>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-maven-plugin</artifactId>
+            <version>0.0.8</version>
+            <configuration>
+                <mainClass>application.App</mainClass>
+            </configuration>
+        </plugin>
+        <!--            <plugin>-->
+        <!--                <groupId>org.springframework.boot</groupId>-->
+        <!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+        <!--                <executions>-->
+        <!--                    <execution>-->
+        <!--                        <goals>-->
+        <!--                            <goal>repackage</goal>-->
+        <!--                        </goals>-->
+        <!--                        <configuration>-->
+        <!--                            <mainClass>application.App</mainClass>-->
+        <!--                        </configuration>-->
+        <!--                    </execution>-->
+        <!--                </executions>-->
+        <!--            </plugin>-->
+    </plugins>
+</build>
 
 </project>
