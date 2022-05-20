@@ -4,9 +4,7 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import message.FileContentMessage;
-import message.FileRequestMessage;
-import message.Message;
+import message.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +13,7 @@ import java.io.RandomAccessFile;
 public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
     private int counter = 0;
     private RandomAccessFile accessFile;
+    public SQLHandler sqlHandler;
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         System.out.println("New active channel");
@@ -22,22 +21,31 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws IOException {
-        /*if (msg instanceof TextMessage) {
-            TextMessage message = (TextMessage) msg;
-            System.out.println("incoming text message: " + message.getText());
-            ctx.writeAndFlush(msg);
-        }
-        if (msg instanceof DateMessage) {
-            DateMessage message = (DateMessage) msg;
-            System.out.println("incoming date message: " + message.getDate());
-            ctx.writeAndFlush(msg);
-        }
-        if (msg instanceof AuthMessage) {
-            AuthMessage message = (AuthMessage) msg;
+//        if (msg instanceof TextMessage) {
+//            TextMessage message = (TextMessage) msg;
+//            System.out.println("incoming text message: " + message.getText());
+//            ctx.writeAndFlush(msg);
+//        }
+//        if (msg instanceof DateMessage) {
+//            DateMessage message = (DateMessage) msg;
+//            System.out.println("incoming date message: " + message.getDate());
+//            ctx.writeAndFlush(msg);
+//        }
+        if (msg instanceof RegMessage) {
+            RegMessage message = (RegMessage) msg;
             System.out.println("incoming login message: " + message.getLogin());
             System.out.println("incoming password message: " + message.getPassword());
-            ctx.writeAndFlush(msg);
-        }*/
+            sqlHandler = new SQLHandler();
+            boolean reg = sqlHandler.registration(message.getLogin(), message.getPassword());
+            TextMessage textMessage = new TextMessage();
+            if (reg) {
+                textMessage.setText("regOK");
+            } else {
+                textMessage.setText("regError");
+            }
+            ctx.writeAndFlush(textMessage);
+
+        }
         if (msg instanceof FileRequestMessage) { //получаем сообщение типа запроса на передачу
             FileRequestMessage frm = (FileRequestMessage) msg; //создаём объект сообщения типа запроса из сообщения
             System.out.println(frm.getPath());

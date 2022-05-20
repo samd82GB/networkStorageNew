@@ -64,11 +64,12 @@
                 <TextField layoutX="460.0" layoutY="14.0" prefHeight="25.0" prefWidth="450.0" />
                 <Button layoutX="14.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" />
                 <Button layoutX="94.0" layoutY="46.0" mnemonicParsing="false" text="Отправить" />
-                <Button layoutX="178.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" />
+                <Button layoutX="176.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" />
                 <Button layoutX="477.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" />
                 <Button layoutX="559.0" layoutY="46.0" mnemonicParsing="false" text="Получить" />
                 <Button layoutX="638.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" />
                 <Button layoutX="742.0" layoutY="46.0" mnemonicParsing="false" text="Удалить" />
+                <Button layoutX="300.0" layoutY="46.0" mnemonicParsing="false" text="Войти"  onAction="#tryEnter"/>
             </children>
         </AnchorPane>
     </children>

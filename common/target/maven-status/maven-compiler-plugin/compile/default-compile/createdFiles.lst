@@ -5,4 +5,5 @@ message\FileContentMessage.class
 message\FileRequestMessage.class
 message\Message.class
 message\AuthMessage.class
+message\RegMessage.class
 handler\JsonDecoder.class
