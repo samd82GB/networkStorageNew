@@ -8,7 +8,7 @@ public class DatabaseConnection {
     public static Connection getConnection() {
         try {
 
-            return DriverManager.getConnection("jdbc:sqlite:G:\\Java\\networkStorageNew\\server\\src\\main\\resources\\networkStorageDB.db"); //указываем к какой базе данных подключиться
+            return DriverManager.getConnection("jdbc:sqlite:networkStorageDB.db"); //указываем к какой базе данных подключиться
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

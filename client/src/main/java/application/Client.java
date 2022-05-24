@@ -15,12 +15,21 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 public class Client {
-    private RegMessage regMessage;
-    private AuthMessage authMessage;
-    private FileRequestMessage fileRequestMessage;
-    private String result;
-    private RegController regController;
+//    private RegMessage regMessage;
+//    private AuthMessage authMessage;
+//    private FileRequestMessage fileRequestMessage;
 
+    private RegController regController;
+    private Controller controller;
+
+    public Client (RegController regController, Controller controller) {
+        this.regController = regController;
+        this.controller = controller;
+
+
+
+
+    }
 
     public void start() {
         //Клиенту достаточно одного ThreadPool для обработки сообщений
@@ -41,12 +50,18 @@ public class Client {
                             new SimpleChannelInboundHandler<Message>() {
                                 @Override
                                 public void channelActive(ChannelHandlerContext ctx) throws Exception {
+                                        RegMessage regMessage = regController.getRegMessage();
                                     if (regMessage != null) {
-                                        System.out.println(regMessage.getLogin());
-                                        System.out.println(regMessage.getPassword());
+                                        System.out.println("out message: "+regMessage.getLogin());
+                                        System.out.println("out message: "+regMessage.getPassword());
                                         ctx.writeAndFlush(regMessage);
                                     }
-
+                                        AuthMessage authMessage = regController.getAuthMessage();
+                                    if (authMessage != null) {
+                                        System.out.println(authMessage.getLogin());
+                                        System.out.println(authMessage.getPassword());
+                                        ctx.writeAndFlush(authMessage);
+                                    }
 
 //                                            final FileRequestMessage message = new FileRequestMessage();
 //                                            message.setPath("g:\\GeekBrains\\Video\\04_Операционные системы\\07_Работа в Linux.MP4");
@@ -56,14 +71,15 @@ public class Client {
                                 @Override
                                 protected void channelRead0(ChannelHandlerContext ctx, Message msg) {
                                     if (msg instanceof TextMessage) {
+                                        System.out.println("income TextMessage");
                                         TextMessage textMessage = (TextMessage) msg;
                                         String txt = textMessage.getText();
+                                        System.out.println(txt);
                                         if (txt.equals("regOK") || txt.equals("regNo")) {
-                                           setResult(txt);
+                                           regController.regResult(txt);
 
-                                        } else {
-                                            result = null;
                                         }
+
                                     }
 
 
@@ -108,16 +124,5 @@ public class Client {
         }
     }
 
-   public void setRegMessage(RegMessage regMessage) {
-        this.regMessage = regMessage;
-    }
 
-
-    public String getResult() {
-        return result;
-    }
-
-    public void setResult(String result) {
-        this.result = result;
-    }
 }
