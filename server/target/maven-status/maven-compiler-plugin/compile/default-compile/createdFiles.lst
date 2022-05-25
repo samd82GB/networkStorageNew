@@ -2,5 +2,6 @@ server\FirstServerHandler.class
 server\DatabaseConnection.class
 server\FirstServerHandler$1.class
 server\SQLHandler.class
-server\Server.class
+server\ClientHandler.class
 server\Server$1.class
+server\Server.class

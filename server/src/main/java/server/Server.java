@@ -12,9 +12,13 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 
 public class Server {
     private final int port;
+
 
     public static void main(String[] args) throws InterruptedException {
         new Server(7000).start();
@@ -25,6 +29,7 @@ public class Server {
     }
 
     public void start() throws InterruptedException {
+
         //ThreadPool отвечающий за инициализацию новых подключений
         NioEventLoopGroup bossGroup = new NioEventLoopGroup(1);
         //ThreadPool обслуживающий всех активных клиентов
@@ -55,10 +60,14 @@ public class Server {
 
             System.out.println("server.Server started");
             channel.closeFuture().sync();
+
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }
     }
+
+
+
 }
 

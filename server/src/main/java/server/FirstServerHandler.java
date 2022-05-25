@@ -13,10 +13,16 @@ import java.io.RandomAccessFile;
 public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
     private int counter = 0;
     private RandomAccessFile accessFile;
-    public SQLHandler sqlHandler;
+    private SQLHandler sqlHandler;
+    private ClientHandler clientHandler;
+
+
+
+    private String id;
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         System.out.println("New active channel");
+        clientHandler= new ClientHandler();
     }
 
     @Override
@@ -33,12 +39,15 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
 //        }
         if (msg instanceof RegMessage) {
             RegMessage message = (RegMessage) msg;
-            System.out.println("incoming login message: " + message.getLogin());
-            System.out.println("incoming password message: " + message.getPassword());
+            System.out.println("incoming login regMessage: " + message.getLogin());
+            System.out.println("incoming password regMessage: " + message.getPassword());
+
             sqlHandler = new SQLHandler();
             boolean reg = sqlHandler.registration(message.getLogin(), message.getPassword());
+
             TextMessage textMessage = new TextMessage();
             if (reg) {
+
                 textMessage.setText("regOK");
             } else {
                 textMessage.setText("regError");
@@ -46,6 +55,28 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
             ctx.writeAndFlush(textMessage);
 
         }
+        if (msg instanceof AuthMessage) {
+            AuthMessage message = (AuthMessage) msg;
+            System.out.println("incoming login authMessage: " + message.getLogin());
+            System.out.println("incoming password authMessage: " + message.getPassword());
+
+            sqlHandler = new SQLHandler();
+            id = sqlHandler.getIdByLoginAndPassword(message.getLogin(), message.getPassword());
+
+            TextMessage textMessage = new TextMessage();
+            if (id!=null) {
+                textMessage.setText(String.format("auth %s", id ));
+                clientHandler.createDirectory(this); //создаём директорию нового пользователя на сервере
+                clientHandler.subscribe(this);
+            } else {
+                textMessage.setText("authError");
+            }
+            ctx.writeAndFlush(textMessage);
+
+
+        }
+
+
         if (msg instanceof FileRequestMessage) { //получаем сообщение типа запроса на передачу
             FileRequestMessage frm = (FileRequestMessage) msg; //создаём объект сообщения типа запроса из сообщения
             System.out.println(frm.getPath());
@@ -106,5 +137,10 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
         if (accessFile != null) {
             accessFile.close();
         }
+        clientHandler.unsubscribe(this);
+    }
+
+    public String getId() {
+        return id;
     }
 }

@@ -36,6 +36,26 @@ public class SQLHandler {
 
     }
 
+    //получение id зарегистрированного пользователя
+    public static String getIdByLoginAndPassword(String login, String password) {
+        Connection connection = DatabaseConnection.getConnection();
+        String id = "";
+        try {
+            PreparedStatement psGetId = connection.prepareStatement("SELECT id FROM users WHERE login = ? AND password = ?;");
+            psGetId.setString(1, login);      //записываем в запрос логин
+            psGetId.setString(2, password);   //записываем в запрос пароль
+            ResultSet rs = psGetId.executeQuery();         //запрос на получение id
+            if (rs.next()) {
+                id = rs.getString(1);           //id возвращается в первой колонке результсета
+            }
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DatabaseConnection.close(connection);
+        }
+        return id;                                //возвращаем id из базы данных зарегистрированных пользователей
+    }
 
 
 }

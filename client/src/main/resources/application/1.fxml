@@ -57,18 +57,18 @@
 <!--        </MenuBar>-->
         <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="569.0" prefWidth="867.0" VBox.vgrow="ALWAYS">
             <children>
-                <ListView layoutY="77.0" prefHeight="480.0" prefWidth="450.0" />
-                <ListView layoutX="460.0" layoutY="77.0" prefHeight="480.0" prefWidth="450.0" />
+                <ListView layoutY="77.0" prefHeight="480.0" prefWidth="450.0" fx:id="clientListView" />
+                <ListView layoutX="460.0" layoutY="77.0" prefHeight="480.0" prefWidth="450.0" fx:id="serverListView"/>
                 <Separator layoutX="449.0" layoutY="38.0" orientation="VERTICAL" prefHeight="520.0" prefWidth="13.0" />
-                <TextField layoutY="14.0" prefHeight="25.0" prefWidth="450.0" />
-                <TextField layoutX="460.0" layoutY="14.0" prefHeight="25.0" prefWidth="450.0" />
-                <Button layoutX="14.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" />
-                <Button layoutX="94.0" layoutY="46.0" mnemonicParsing="false" text="Отправить" />
-                <Button layoutX="176.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" />
-                <Button layoutX="477.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" />
-                <Button layoutX="559.0" layoutY="46.0" mnemonicParsing="false" text="Получить" />
-                <Button layoutX="638.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" />
-                <Button layoutX="742.0" layoutY="46.0" mnemonicParsing="false" text="Удалить" />
+                <TextField layoutY="14.0" prefHeight="25.0" prefWidth="450.0" fx:id="clientTextField"/>
+                <TextField layoutX="460.0" layoutY="14.0" prefHeight="25.0" prefWidth="450.0" fx:id="serverTextField"/>
+                <Button layoutX="14.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" fx:id="clRenewButton" onAction="#clRenew"/>
+                <Button layoutX="94.0" layoutY="46.0" mnemonicParsing="false" text="Отправить" fx:id="clSendButton" onAction="#clSend" />
+                <Button layoutX="176.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" fx:id="clCreateDirButton" onAction="#clCreateDir" />
+                <Button layoutX="477.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" fx:id="srvRenewButton" onAction="#srvRenew"/>
+                <Button layoutX="559.0" layoutY="46.0" mnemonicParsing="false" text="Получить" fx:id="srvRcvButton" onAction="#srvRcv"/>
+                <Button layoutX="638.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" fx:id="srvCreateDirButton" onAction="#srvCreateDir"/>
+                <Button layoutX="742.0" layoutY="46.0" mnemonicParsing="false" text="Удалить" fx:id="srvDelButton" onAction="#srvDelete"/>
                 <Button layoutX="300.0" layoutY="46.0" mnemonicParsing="false" text="Войти" onAction="#tryEnter" fx:id="regButton" />
             </children>
         </AnchorPane>
