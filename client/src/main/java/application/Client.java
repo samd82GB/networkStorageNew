@@ -18,24 +18,20 @@ public class Client {
 //    private RegMessage regMessage;
 //    private AuthMessage authMessage;
 //    private FileRequestMessage fileRequestMessage;
-
+    private Bootstrap bootstrap;
     private RegController regController;
     private Controller controller;
-
-    public Client (RegController regController, Controller controller) {
-        this.regController = regController;
-        this.controller = controller;
+    private Channel channel;
+    private NioEventLoopGroup group;
 
 
 
-
-    }
 
     public void start() {
         //Клиенту достаточно одного ThreadPool для обработки сообщений
-        final NioEventLoopGroup group = new NioEventLoopGroup(1);
+        group = new NioEventLoopGroup(1);
         try {
-            Bootstrap bootstrap = new Bootstrap();
+            bootstrap = new Bootstrap();
             bootstrap.group(group);
             bootstrap.channel(NioSocketChannel.class);
             bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
@@ -50,18 +46,18 @@ public class Client {
                             new SimpleChannelInboundHandler<Message>() {
                                 @Override
                                 public void channelActive(ChannelHandlerContext ctx) throws Exception {
-                                        RegMessage regMessage = regController.getRegMessage();
-                                    if (regMessage != null) {
-                                        System.out.println("out message: "+regMessage.getLogin());
-                                        System.out.println("out message: "+regMessage.getPassword());
-                                        ctx.writeAndFlush(regMessage);
-                                    }
-                                        AuthMessage authMessage = regController.getAuthMessage();
-                                    if (authMessage != null) {
-                                        System.out.println(authMessage.getLogin());
-                                        System.out.println(authMessage.getPassword());
-                                        ctx.writeAndFlush(authMessage);
-                                    }
+//                                        RegMessage regMessage = regController.getRegMessage();
+//                                    if (regMessage != null) {
+//                                        System.out.println("out message: "+regMessage.getLogin());
+//                                        System.out.println("out message: "+regMessage.getPassword());
+//                                        ctx.writeAndFlush(regMessage);
+//                                    }
+//                                        AuthMessage authMessage = regController.getAuthMessage();
+//                                    if (authMessage != null) {
+//                                        System.out.println(authMessage.getLogin());
+//                                        System.out.println(authMessage.getPassword());
+//                                        ctx.writeAndFlush(authMessage);
+//                                    }
 
 //                                            final FileRequestMessage message = new FileRequestMessage();
 //                                            message.setPath("g:\\GeekBrains\\Video\\04_Операционные системы\\07_Работа в Linux.MP4");
@@ -75,7 +71,7 @@ public class Client {
                                         TextMessage textMessage = (TextMessage) msg;
                                         String txt = textMessage.getText();
                                         System.out.println(txt);
-                                        if (txt.equals("regOK") || txt.equals("regNo")) {
+                                        if (txt.equals("regOK") || txt.equals("regError")) {
                                            regController.regResult(txt);
 
                                         }
@@ -110,19 +106,55 @@ public class Client {
                 }
             });
 
+            channel = bootstrap.connect("localhost",7000).sync().channel();
             System.out.println("application.Client started");
 
-
-            Channel channel = bootstrap.connect("localhost",7000).sync().channel();
-            channel.closeFuture().sync();
-
-
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            group.shutdownGracefully();
+//            group.shutdownGracefully();
         }
     }
 
+
+    public RegController getRegController() {
+        return regController;
+    }
+
+    public void setRegController(RegController regController) {
+        this.regController = regController;
+    }
+
+    public Controller getController() {
+        return controller;
+    }
+
+    public void setController(Controller controller) {
+        this.controller = controller;
+    }
+
+    public void setChannel(Channel channel) {
+        this.channel = channel;
+    }
+
+    public Bootstrap getBootstrap() {
+        return bootstrap;
+    }
+
+    public Channel getChannel() {
+        return channel;
+    }
+
+//    public Client (RegController regController, Controller controller) {
+//        this.regController = regController;
+//        this.controller = controller;
+
+//    controller.setClient(this);
+//    regController.setClient(this);
+
+
+    public NioEventLoopGroup getGroup() {
+        return group;
+    }
 
 }

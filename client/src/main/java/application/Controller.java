@@ -1,5 +1,6 @@
 package application;
 
+import io.netty.channel.Channel;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,26 +26,51 @@ public class Controller {
     private Stage regStage;
     private Stage mainStage;
     private RegController regController;
-//    private Client client;
+
+
+
+    private Client client;
+    private Channel channel;
 
     private RegMessage regMessage;
     private AuthMessage authMessage;
 
     private FXMLLoader fxmlLoader = new FXMLLoader();
     private Parent fxmlReg;
+    private Stage stage;
 
-        @FXML
+    @FXML
         private void initialize() throws IOException {
             fxmlLoader.setLocation(getClass().getResource("/application/login.fxml"));
             fxmlReg = fxmlLoader.load();
             regController = fxmlLoader.getController();
-//            startClient(); //если стартовать клиента тут, то блокируется поток FX и окна будут работать только после отключения приложения
+            startClient();
+
+            Platform.runLater(() -> {
+                    stage = (Stage) regButton.getScene().getWindow();
+
+                //обработка нажатия крестика на окне
+                stage.setOnCloseRequest(event -> { //нажали крестик
+                    System.out.println("Goodbye!"); //попрощались
+                    if (channel != null) { //Если канал открыт, то закрываем его
+                        try {
+                            channel.close();
+                            client.getGroup().shutdownGracefully();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            });
+
 
 }
 
 
     public void tryEnter(ActionEvent actionEvent) throws IOException {
         showRegWindow();
+
+
     }
 
     private void showRegWindow() {
@@ -58,7 +84,7 @@ public class Controller {
          }
 
             regStage.show();
-                    startClient(); //если стартовать клиента тут, то окно регистрации зависает
+
        }
 
 
@@ -80,13 +106,25 @@ public class Controller {
 //    }
 
     public void startClient () {
-        Client client = new Client(regController, this);
+//        client = new Client(regController, this);
+        client = new Client();
         client.start();
+        channel = client.getChannel();
+        client.setRegController(regController);
+        client.setController(this);
+        regController.setChannel(channel);
 }
     public void setMainStage(Stage mainStage) {
         this.mainStage = mainStage;
         }
 
+    public Client getClient() {
+        return client;
+    }
+//
+//    public void setClient(Client client) {
+//        this.client = client;
+//    }
 }
 
 

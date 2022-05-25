@@ -22,7 +22,7 @@
             <Button layoutX="108.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Войти" onAction="#tryEnter" />
             <Button layoutX="226.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="Закрыть" onAction="#closeRegWindow" fx:id="closeButton" cancelButton="true" />
             <Label layoutX="108.0" layoutY="14.0" text="Введите логин и пароль" fx:id="textEnter"/>
-            <Label layoutX="108.0" layoutY="32.0" text="Результат операции" fx:id="textOK"/>
+            <Label layoutX="108.0" layoutY="32.0" fx:id="textOK"/>
 
       </children>
     </AnchorPane>

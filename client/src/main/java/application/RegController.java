@@ -1,5 +1,7 @@
 package application;
 
+import io.netty.channel.Channel;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +25,11 @@ public class RegController  {
     private RegMessage regMessage;
     private AuthMessage authMessage;
 
+    private Client client;
+    private Channel channel;
+
+
+
     @FXML
     private Button closeButton;
     @FXML
@@ -43,6 +50,7 @@ public class RegController  {
         String password = passwordField.getText().trim();
         registration(login, password);
 
+
     }
     @FXML
     public void tryEnter(ActionEvent actionEvent) {
@@ -59,12 +67,15 @@ public class RegController  {
     }
 
     public void regResult (String result) {
+
         System.out.println("result: "+result);
-        if (result.equals("regOK")) {
-            textOK.setText("Регистрация прошла успешно!");
-        } else {
-            textOK.setText("Регистрация не удалась!");
-        }
+        Platform.runLater(() -> {
+            if (result.equals("regOK")) {
+                textOK.setText("Регистрация прошла успешно!");
+            } else {
+                textOK.setText("Регистрация не удалась!");
+            }
+        });
     }
 
 
@@ -72,6 +83,8 @@ public class RegController  {
         regMessage = new RegMessage();
         regMessage.setLogin(login);
         regMessage.setPassword(password);
+
+        channel.writeAndFlush(regMessage);
 
 
     }
@@ -88,14 +101,19 @@ public class RegController  {
 //    public void setController(Controller controller) {
 //        this.controller = controller;
 //    }
-
-    public RegMessage getRegMessage () {
-        return regMessage;
+//
+//    public RegMessage getRegMessage () {
+//        return regMessage;
+//    }
+//
+//    public AuthMessage getAuthMessage () {
+//        return authMessage;
+////    }
+//    public void setClient(Client client) {
+//        this.client = client;
+//    }
+    public void setChannel(Channel channel) {
+        this.channel = channel;
     }
-
-    public AuthMessage getAuthMessage () {
-        return authMessage;
-    }
-
 
 }

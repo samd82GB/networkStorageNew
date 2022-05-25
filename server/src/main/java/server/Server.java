@@ -55,6 +55,7 @@ public class Server {
 
             System.out.println("server.Server started");
             channel.closeFuture().sync();
+
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
