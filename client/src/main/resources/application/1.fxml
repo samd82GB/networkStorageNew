@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import java.awt.MenuBar?>
+
+<VBox fx:controller="application.Controller"
+      xmlns:fx="http://javafx.com/fxml" alignment="center">
+    <children>
+<!--        <MenuBar VBox.vgrow="NEVER">-->
+<!--            <menus>-->
+<!--                <Menu mnemonicParsing="false" text="File">-->
+<!--                    <items>-->
+<!--                        <MenuItem mnemonicParsing="false" text="New" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Open…" />-->
+<!--                        <Menu mnemonicParsing="false" text="Open Recent" />-->
+<!--                        <SeparatorMenuItem mnemonicParsing="false" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Close" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Save" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Save As…" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Revert" />-->
+<!--                        <SeparatorMenuItem mnemonicParsing="false" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Preferences…" />-->
+<!--                        <SeparatorMenuItem mnemonicParsing="false" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Quit" />-->
+<!--                    </items>-->
+<!--                </Menu>-->
+<!--                <Menu mnemonicParsing="false" text="Edit">-->
+<!--                    <items>-->
+<!--                        <MenuItem mnemonicParsing="false" text="Undo" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Redo" />-->
+<!--                        <SeparatorMenuItem mnemonicParsing="false" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Cut" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Copy" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Paste" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Delete" />-->
+<!--                        <SeparatorMenuItem mnemonicParsing="false" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Select All" />-->
+<!--                        <MenuItem mnemonicParsing="false" text="Unselect All" />-->
+<!--                    </items>-->
+<!--                </Menu>-->
+<!--                <Menu mnemonicParsing="false" text="Help">-->
+<!--                    <items>-->
+<!--                        <MenuItem mnemonicParsing="false" text="About MyHelloApp" />-->
+<!--                    </items>-->
+<!--                </Menu>-->
+<!--            </menus>-->
+<!--        </MenuBar>-->
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="569.0" prefWidth="867.0" VBox.vgrow="ALWAYS">
+            <children>
+                <ListView layoutY="77.0" prefHeight="480.0" prefWidth="450.0" fx:id="clientListView" />
+                <ListView layoutX="460.0" layoutY="77.0" prefHeight="480.0" prefWidth="450.0" fx:id="serverListView"/>
+                <Separator layoutX="449.0" layoutY="38.0" orientation="VERTICAL" prefHeight="520.0" prefWidth="13.0" />
+                <TextField layoutY="14.0" prefHeight="25.0" prefWidth="450.0" fx:id="clientTextField"/>
+                <TextField layoutX="460.0" layoutY="14.0" prefHeight="25.0" prefWidth="450.0" fx:id="serverTextField"/>
+                <Button layoutX="14.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" fx:id="clRenewButton" onAction="#clRenew"/>
+                <Button layoutX="94.0" layoutY="46.0" mnemonicParsing="false" text="Отправить" fx:id="clSendButton" onAction="#clSend" />
+                <Button layoutX="176.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" fx:id="clCreateDirButton" onAction="#clCreateDir" />
+                <Button layoutX="477.0" layoutY="46.0" mnemonicParsing="false" text="Обновить" fx:id="srvRenewButton" onAction="#srvRenew"/>
+                <Button layoutX="559.0" layoutY="46.0" mnemonicParsing="false" text="Получить" fx:id="srvRcvButton" onAction="#srvRcv"/>
+                <Button layoutX="638.0" layoutY="46.0" mnemonicParsing="false" text="Создать папку" fx:id="srvCreateDirButton" onAction="#srvCreateDir"/>
+                <Button layoutX="742.0" layoutY="46.0" mnemonicParsing="false" text="Удалить" fx:id="srvDelButton" onAction="#srvDelete"/>
+                <Button layoutX="300.0" layoutY="46.0" mnemonicParsing="false" text="Войти" onAction="#tryEnter" fx:id="regButton" />
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>

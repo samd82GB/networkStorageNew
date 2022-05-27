@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.TextArea?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml" fx:controller="application.RegController">
+
+  <children>
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="354.0" prefWidth="394.0" VBox.vgrow="ALWAYS">
+      <children>
+            <TextField layoutX="108.0" layoutY="58.0" prefHeight="25.0" prefWidth="180.0" fx:id="loginField" />
+<!--            <TextArea layoutX="108.0" layoutY="32.0" fx:id="textOK" prefWidth="180.0" prefHeight="10.0"/>-->
+            <Label layoutX="17.0" layoutY="62.0" prefHeight="17.0" prefWidth="63.0" text="Логин" />
+            <TextField layoutX="108.0" layoutY="97.0" prefHeight="25.0" prefWidth="180.0" fx:id="passwordField"/>
+            <Label layoutX="17.0" layoutY="101.0" prefHeight="17.0" prefWidth="63.0" text="Пароль" />
+            <Button layoutX="14.0" layoutY="149.0" mnemonicParsing="false" text="Регистрация" onAction="#tryToReg" fx:id="regButton"/>
+            <Button layoutX="108.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="108.0" text="Войти" onAction="#tryEnter" />
+            <Button layoutX="226.0" layoutY="149.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="63.0" text="Закрыть" onAction="#closeRegWindow" fx:id="closeButton" cancelButton="true" />
+            <Label layoutX="108.0" layoutY="14.0" text="Введите логин и пароль" fx:id="textEnter"/>
+            <Label layoutX="108.0" layoutY="32.0" fx:id="textOK"/>
+
+      </children>
+    </AnchorPane>
+  </children>
+</VBox>
