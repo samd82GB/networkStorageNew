@@ -23,6 +23,7 @@ public class Client {
     private Controller controller;
     private Channel channel;
     private NioEventLoopGroup group;
+    private String[] token;
 
 
 
@@ -74,9 +75,22 @@ public class Client {
                                         if (txt.startsWith("reg") || txt.startsWith("auth")) {
                                             regController.regResult(txt);
                                         }
+
+                                        token = txt.split(" ", 3);
+                                        if (token.length ==3) {
+                                            controller.serverDirView(token[2]);
+                                        }
+
+
                                     }
 
-
+                                    if (msg instanceof FileDeleteMessage) {
+                                        FileDeleteMessage fdm = (FileDeleteMessage) msg;
+                                        if(fdm.isDeleted()) {
+                                            controller.serverDirView(token[2]);
+                                            fdm.setDeleted(false);
+                                        };
+                                    }
 
 
                                     if (msg instanceof FileContentMessage) {

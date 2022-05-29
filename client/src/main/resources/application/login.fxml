@@ -14,7 +14,6 @@
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="354.0" prefWidth="394.0" VBox.vgrow="ALWAYS">
       <children>
             <TextField layoutX="108.0" layoutY="58.0" prefHeight="25.0" prefWidth="180.0" fx:id="loginField" />
-<!--            <TextArea layoutX="108.0" layoutY="32.0" fx:id="textOK" prefWidth="180.0" prefHeight="10.0"/>-->
             <Label layoutX="17.0" layoutY="62.0" prefHeight="17.0" prefWidth="63.0" text="Логин" />
             <TextField layoutX="108.0" layoutY="97.0" prefHeight="25.0" prefWidth="180.0" fx:id="passwordField"/>
             <Label layoutX="17.0" layoutY="101.0" prefHeight="17.0" prefWidth="63.0" text="Пароль" />

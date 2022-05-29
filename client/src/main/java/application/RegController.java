@@ -81,12 +81,14 @@ public class RegController  {
             } else if (result.equals("authError")) {
                 textOK.setText("Ошибка входа!");
             } else if (result.startsWith("auth")) {
-                String[] token = result.split(" ", 2);
+                String[] token = result.split(" ", 3);
                 textOK.setText("Успешный вход пользователя: "+token[1]);
                 Stage stage = (Stage) regButton.getScene().getWindow();
                 stage.close();
                 Stage mainStage = controller.getMainStage();
                 mainStage.setTitle("Хранилище пользователя № "+token[1]);
+                controller.clientDirView();
+                controller.getRegButton().setDisable(true);
             }
 
 

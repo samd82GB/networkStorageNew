@@ -15,14 +15,18 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
     private RandomAccessFile accessFile;
     private SQLHandler sqlHandler;
     private ClientHandler clientHandler;
-
-
-
+    private String serverDirectory;
     private String id;
+
+
+
+    private String fileToDeleteName;
+
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         System.out.println("New active channel");
-        clientHandler= new ClientHandler();
+        clientHandler= new ClientHandler(this);
     }
 
     @Override
@@ -30,13 +34,14 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
 //        if (msg instanceof TextMessage) {
 //            TextMessage message = (TextMessage) msg;
 //            System.out.println("incoming text message: " + message.getText());
-//            ctx.writeAndFlush(msg);
+//
 //        }
 //        if (msg instanceof DateMessage) {
 //            DateMessage message = (DateMessage) msg;
 //            System.out.println("incoming date message: " + message.getDate());
 //            ctx.writeAndFlush(msg);
 //        }
+        //обработка сообщения о регистрации
         if (msg instanceof RegMessage) {
             RegMessage message = (RegMessage) msg;
             System.out.println("incoming login regMessage: " + message.getLogin());
@@ -55,6 +60,8 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
             ctx.writeAndFlush(textMessage);
 
         }
+
+        //обработка сообщения об авторизации
         if (msg instanceof AuthMessage) {
             AuthMessage message = (AuthMessage) msg;
             System.out.println("incoming login authMessage: " + message.getLogin());
@@ -62,18 +69,48 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
 
             sqlHandler = new SQLHandler();
             id = sqlHandler.getIdByLoginAndPassword(message.getLogin(), message.getPassword());
-
+            System.out.println(id);
             TextMessage textMessage = new TextMessage();
-            if (id!=null) {
-                textMessage.setText(String.format("auth %s", id ));
-                clientHandler.createDirectory(this); //создаём директорию нового пользователя на сервере
-                clientHandler.subscribe(this);
+            if (!id.equals("")) {
+                serverDirectory = clientHandler.createDirectory(); //создаём директорию нового пользователя на сервере
+                clientHandler.subscribe();
+                textMessage.setText(String.format("auth %s %s", id, serverDirectory ));
             } else {
                 textMessage.setText("authError");
             }
             ctx.writeAndFlush(textMessage);
 
 
+        }
+
+        if (msg instanceof FileContentMessage) {
+            FileContentMessage fcm = (FileContentMessage) msg;
+            String fileName = fcm.getFileName();
+            String fileDirectory = serverDirectory+"\\"+fileName;
+            try (final RandomAccessFile accessFile = new RandomAccessFile(fileDirectory, "rw")) {
+                if (accessFile.length() != 0) {
+                    System.out.println("Получено %: " + fcm.getStartPosition() * 100 / accessFile.length());
+                }
+                accessFile.seek(fcm.getStartPosition());
+                accessFile.write(fcm.getContent());
+                if (fcm.isLast()) {
+//                    ctx.close();
+                    System.out.println("Получен последний байт");
+
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        if (msg instanceof FileDeleteMessage) {
+            FileDeleteMessage fileDeleteMessage = (FileDeleteMessage) msg;
+            fileToDeleteName = fileDeleteMessage.getFileName();
+            if (clientHandler.deleteFile()) {
+             fileDeleteMessage.setDeleted(true);
+            }
+            ctx.writeAndFlush(fileDeleteMessage);
         }
 
 
@@ -137,10 +174,15 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
         if (accessFile != null) {
             accessFile.close();
         }
-        clientHandler.unsubscribe(this);
+        clientHandler.unsubscribe();
     }
 
     public String getId() {
         return id;
     }
+
+    public String getFileToDeleteName() {
+        return fileToDeleteName;
+    }
+
 }

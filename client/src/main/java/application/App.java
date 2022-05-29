@@ -13,7 +13,7 @@ public class App extends Application {
     public void start(Stage stage) throws Exception {
 //запуск основного окна
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/application/1.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 900, 600);
+        Scene scene = new Scene(fxmlLoader.load(), 920, 600);
         Controller controller = fxmlLoader.getController();
         controller.setMainStage(stage);
 

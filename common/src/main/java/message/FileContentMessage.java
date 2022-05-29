@@ -4,6 +4,18 @@ public class FileContentMessage extends Message{
     private byte [] content;
     private long startPosition;
     private boolean last;
+    private String fileName;
+
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+
 
     public void setLast(boolean last) {
         this.last = last;
