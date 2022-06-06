@@ -89,6 +89,14 @@ public class RegController  {
                 mainStage.setTitle("Хранилище пользователя № "+token[1]);
                 controller.clientDirView();
                 controller.getRegButton().setDisable(true);
+                controller.getClRenewButton().setDisable(false);
+                controller.getClSendButton().setDisable(false);
+                controller.getClCreateDirButton().setDisable(false);
+                controller.getSrvDelButton().setDisable(false);
+                controller.getSrvCreateDirButton().setDisable(false);
+                controller.getSrvRcvButton().setDisable(false);
+                controller.getSrvRenewButton().setDisable(false);
+                controller.getSrvSendButton().setDisable(false);
             }
 
 

@@ -49,10 +49,10 @@ public class ClientHandler {
 
     public boolean deleteFile () throws IOException {
         String name = firstServerHandler.getFileToDeleteName();
-        String fileDir = clientDirOnServer+"\\"+name;
-
-        if (Files.exists(Paths.get(fileDir))) {
-            Files.delete(Paths.get(fileDir));
+//        String fileDir = clientDirOnServer+"\\"+name;
+        System.out.println("file to delete: "+name);
+        if (Files.exists(Paths.get(name))) {
+            Files.delete(Paths.get(name));
         }
         return true;
     }

@@ -9,6 +9,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
+import javafx.application.Platform;
 import message.*;
 
 import java.io.IOException;
@@ -24,6 +25,10 @@ public class Client {
     private Channel channel;
     private NioEventLoopGroup group;
     private String[] token;
+
+
+
+    private String currentClientDirectory;
 
 
 
@@ -47,22 +52,7 @@ public class Client {
                             new SimpleChannelInboundHandler<Message>() {
                                 @Override
                                 public void channelActive(ChannelHandlerContext ctx) throws Exception {
-//                                        RegMessage regMessage = regController.getRegMessage();
-//                                    if (regMessage != null) {
-//                                        System.out.println("out message: "+regMessage.getLogin());
-//                                        System.out.println("out message: "+regMessage.getPassword());
-//                                        ctx.writeAndFlush(regMessage);
-//                                    }
-//                                        AuthMessage authMessage = regController.getAuthMessage();
-//                                    if (authMessage != null) {
-//                                        System.out.println(authMessage.getLogin());
-//                                        System.out.println(authMessage.getPassword());
-//                                        ctx.writeAndFlush(authMessage);
-//                                    }
-
-//                                            final FileRequestMessage message = new FileRequestMessage();
-//                                            message.setPath("g:\\GeekBrains\\Video\\04_Операционные системы\\07_Работа в Linux.MP4");
-//                                            ctx.writeAndFlush(message);
+//
                                 }
 
                                 @Override
@@ -78,7 +68,7 @@ public class Client {
 
                                         token = txt.split(" ", 3);
                                         if (token.length ==3) {
-                                            controller.serverDirView(token[2]);
+                                           controller.setStartServerDirectory(token[2]);
                                         }
 
 
@@ -87,8 +77,8 @@ public class Client {
                                     if (msg instanceof FileDeleteMessage) {
                                         FileDeleteMessage fdm = (FileDeleteMessage) msg;
                                         if(fdm.isDeleted()) {
-                                            controller.serverDirView(token[2]);
-                                            fdm.setDeleted(false);
+                                           controller.serverDirView();
+                                           fdm.setDeleted(false);
                                         };
                                     }
 
@@ -96,15 +86,18 @@ public class Client {
                                     if (msg instanceof FileContentMessage) {
                                         FileContentMessage fcm = (FileContentMessage) msg;
 
-                                        try (final RandomAccessFile accessFile = new RandomAccessFile("g:\\GeekBrains\\300.mts", "rw")) {
+                                        try (final RandomAccessFile accessFile = new RandomAccessFile(currentClientDirectory, "rw")) {
                                             if (accessFile.length() != 0) {
-                                                System.out.println("Получено %: " + fcm.getStartPosition() * 100 / accessFile.length());
+                                                //System.out.println("Получено %: " + fcm.getStartPosition() * 100 / accessFile.length());
+                                                controller.progressLabel(fcm.getStartPosition(), accessFile.length());
                                             }
                                             accessFile.seek(fcm.getStartPosition());
                                             accessFile.write(fcm.getContent());
                                             if (fcm.isLast()) {
-                                                ctx.close();
-                                                System.out.println("Получен последний байт");
+//                                                ctx.close();
+                                                controller.closeProgressLabel();
+                                                controller.clientDirView();
+                                                System.out.println("Received last byte");
 
                                             }
 
@@ -159,16 +152,12 @@ public class Client {
         return channel;
     }
 
-//    public Client (RegController regController, Controller controller) {
-//        this.regController = regController;
-//        this.controller = controller;
-
-//    controller.setClient(this);
-//    regController.setClient(this);
-
 
     public NioEventLoopGroup getGroup() {
         return group;
+    }
+    public void setCurrentClientDirectory(String currentClientDirectory) {
+        this.currentClientDirectory = currentClientDirectory;
     }
 
 }

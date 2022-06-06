@@ -31,16 +31,7 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message msg) throws IOException {
-//        if (msg instanceof TextMessage) {
-//            TextMessage message = (TextMessage) msg;
-//            System.out.println("incoming text message: " + message.getText());
-//
-//        }
-//        if (msg instanceof DateMessage) {
-//            DateMessage message = (DateMessage) msg;
-//            System.out.println("incoming date message: " + message.getDate());
-//            ctx.writeAndFlush(msg);
-//        }
+
         //обработка сообщения о регистрации
         if (msg instanceof RegMessage) {
             RegMessage message = (RegMessage) msg;
@@ -85,8 +76,8 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
 
         if (msg instanceof FileContentMessage) {
             FileContentMessage fcm = (FileContentMessage) msg;
-            String fileName = fcm.getFileName();
-            String fileDirectory = serverDirectory+"\\"+fileName;
+            String fileDirectory = fcm.getFileName();
+
             try (final RandomAccessFile accessFile = new RandomAccessFile(fileDirectory, "rw")) {
                 if (accessFile.length() != 0) {
                     System.out.println("Получено %: " + fcm.getStartPosition() * 100 / accessFile.length());
@@ -94,7 +85,6 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
                 accessFile.seek(fcm.getStartPosition());
                 accessFile.write(fcm.getContent());
                 if (fcm.isLast()) {
-//                    ctx.close();
                     System.out.println("Получен последний байт");
 
                 }
@@ -107,6 +97,7 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
         if (msg instanceof FileDeleteMessage) {
             FileDeleteMessage fileDeleteMessage = (FileDeleteMessage) msg;
             fileToDeleteName = fileDeleteMessage.getFileName();
+
             if (clientHandler.deleteFile()) {
              fileDeleteMessage.setDeleted(true);
             }
@@ -135,6 +126,7 @@ public class FirstServerHandler extends SimpleChannelInboundHandler<Message> {
                     fileContent = new byte [(int)available]; //иначе размер пакета равен остатку байт
                 }
                 final FileContentMessage message = new FileContentMessage(); //создаём объект сообщения типа содержимого сообщения
+
                 message.setStartPosition(accessFile.getFilePointer()); //задаём место чтения в сообщении
                 accessFile.read(fileContent); //читаем из файла в пакет заданного размера
                 message.setContent(fileContent); //записываем считанный пакет в содержимое сообщения
