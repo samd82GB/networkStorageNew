@@ -1,0 +1,10 @@
+message\FileDeleteMessage.class
+handler\JsonEncoder.class
+message\TextMessage.class
+message\FileContentMessage.class
+message\DateMessage.class
+message\FileRequestMessage.class
+message\Message.class
+message\AuthMessage.class
+message\RegMessage.class
+handler\JsonDecoder.class

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="center" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11" fx:controller="application.Controller">
+    <children>
+
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" minHeight="570.0" minWidth="910.0" VBox.vgrow="ALWAYS">
+            <children>
+                <ListView fx:id="clientListView" layoutX="10.0" layoutY="77.0" prefHeight="480.0" prefWidth="440.0" />
+                <ListView fx:id="serverListView" layoutX="460.0" layoutY="77.0" prefHeight="480.0" prefWidth="440.0" />
+                <Separator layoutX="450.0" layoutY="1.0" orientation="VERTICAL" prefHeight="559.0" prefWidth="13.0" />
+                <TextField fx:id="clientTextField" layoutX="10.0" layoutY="14.0" prefHeight="25.0" prefWidth="440.0" />
+                <TextField fx:id="serverTextField" layoutX="460.0" layoutY="14.0" prefHeight="25.0" prefWidth="440.0" />
+                <Button fx:id="clRenewButton" layoutX="10.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clRenew" prefHeight="25.0" prefWidth="75.0" text="Обновить">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Button fx:id="clSendButton" layoutX="91.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#clSend" prefHeight="25.0" prefWidth="75.0" text="Загрузить">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Button fx:id="clCreateDirButton" layoutX="172.0" layoutY="46.0" mnemonicParsing="false" onAction="#clCreateDir" prefHeight="25.0" prefWidth="100.0" text="Создать папку">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Button fx:id="srvRenewButton" layoutX="460.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#srvRenew" prefHeight="25.0" prefWidth="75.0" text="Обновить">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Button fx:id="srvRcvButton" layoutX="543.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#srvRcv" prefHeight="25.0" prefWidth="75.0" text="Загрузить">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Button fx:id="srvCreateDirButton" layoutX="725.0" layoutY="46.0" mnemonicParsing="false" onAction="#srvCreateDir" prefHeight="25.0" prefWidth="100.0" text="Создать папку">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Button fx:id="srvDelButton" layoutX="825.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#srvDelete" prefHeight="25.0" prefWidth="75.0" text="Удалить">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Button fx:id="regButton" layoutX="310.0" layoutY="46.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#tryEnter" prefHeight="25.0" prefWidth="75.0" text="Войти">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding></Button>
+                <Label fx:id="sendProgress" layoutX="414.0" layoutY="50.0" prefHeight="17.0" prefWidth="36.0" />
+            <Button fx:id="srvSendButton" layoutX="626.0" layoutY="46.0" mnemonicParsing="false" onAction="#srvSend" prefHeight="25.0" prefWidth="90.0" text="Выгрузить">
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </Button>
+            </children>
+        </AnchorPane>
+    </children>
+</VBox>
